@@ -61,7 +61,7 @@ class Multi_Server_Logger(selfcord.Client):
         if type(att) != list:
             att = [].append(att)
         if message.reference == None:
-            await ch.send(payload + f": {message.content}`", files=list(att))
+            await ch.send(payload + f": {message.content}`", files=att)
         else:
             messages = [msg async for msg in ch.history(limit=200)]
             pointer = None
@@ -70,9 +70,9 @@ class Multi_Server_Logger(selfcord.Client):
                     pointer = msg
                     break
             if pointer:
-                await ch.send(payload + f"` **Replied** `: {message.content}`", files=list(att), reference=pointer)
+                await ch.send(payload + f"` **Replied** `: {message.content}`", files=att, reference=pointer)
             else:
-                await ch.send(payload + f"` **Replied** `: {message.content}`", files=list(att))
+                await ch.send(payload + f"` **Replied** `: {message.content}`", files=att)
 
     async def on_message_edit(self, before, after):
         if after.author.id == self.user.id:
