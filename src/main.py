@@ -67,9 +67,9 @@ class Multi_Server_Logger(selfcord.Client):
                 async with session.get(a.url) as resp:
                     att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
        
-        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator} <:{emoji.name}:{emoji.id}>".rjust(21)
+        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}` <:{emoji.name}:{emoji.id}>".rjust(21)
         if message.reference == None:
-            await ch.send(payload + f":` {message.content}", files=att)
+            await ch.send(payload + f": {message.content}", files=att)
         else:
             messages = [msg async for msg in ch.history(limit=200)]
             pointer = None
@@ -78,9 +78,9 @@ class Multi_Server_Logger(selfcord.Client):
                     pointer = msg
                     break
             if pointer: 
-                await ch.send(payload + f"` **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att, reference=pointer)
+                await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att, reference=pointer)
             else:
-                await ch.send(payload + f"` **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att)
+                await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att)
         await self.get_guild(log_guild).delete_emoji(emoji)
 
     async def on_message_edit(self, before, after):
