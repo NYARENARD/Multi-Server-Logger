@@ -59,15 +59,19 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
 
-        fp = requests.get(message.author.display_avatar.url).content
-        emoji = await self.get_guild(log_guild).create_custom_emoji(name=f"avatar", image=fp)
+        try:
+            fp = requests.get(message.author.display_avatar.url).content
+            emoji = await self.get_guild(log_guild).create_custom_emoji(name="avatar", image=fp)
+            subload = f"<:{emoji.name}:{emoji.id}>"
+        except:
+            subload = ""
         att = []
         for a in message.attachments:
             async with aiohttp.ClientSession() as session:
                 async with session.get(a.url) as resp:
                     att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
        
-        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}` <:{emoji.name}:{emoji.id}>".rjust(21)
+        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}` {subload}".rjust(21)
         if message.reference == None:
             await ch.send(payload + f": {message.content}", files=att)
         else:
