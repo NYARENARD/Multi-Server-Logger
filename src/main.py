@@ -1,4 +1,5 @@
 import selfcord
+import urllib.request
 from secondary import config
 
 log_guild = config["log_guild"]
@@ -55,11 +56,12 @@ class Multi_Server_Logger(selfcord.Client):
             ch = await self.create_on_events(message.channel)
         except:
             return
-        
+       
+        att = [selfcord.File(urllib.request.urlopen(a.url), filename=a.filename) async for a in message.attachments]
         payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}".rjust(21)
         if message.reference == None:
             if type(message.attachments) is list:
-                await ch.send(payload + f": {message.content}`", files=message.attachments)
+                await ch.send(payload + f": {message.content}`", files=att)
             else:
                 await ch.send(payload + f": {message.content}`", file=message.attachments)
         else:
@@ -71,12 +73,12 @@ class Multi_Server_Logger(selfcord.Client):
                     break
             if pointer:
                 if type(message.attachments) is list:
-                    await ch.send(payload + f"` **Replied** `: {message.content}`", files=message.attachments, reference=pointer)
+                    await ch.send(payload + f"` **Replied** `: {message.content}`", files=att, reference=pointer)
                 else:
                     await ch.send(payload + f"` **Replied** `: {message.content}`", file=message.attachments, reference=pointer)
             else:
                 if type(message.attachments) is list:
-                    await ch.send(payload + f"` **Replied** `: {message.content}`", files=message.attachments)
+                    await ch.send(payload + f"` **Replied** `: {message.content}`", files=att)
                 else:
                     await ch.send(payload + f"` **Replied** `: {message.content}`", file=message.attachments)
 
