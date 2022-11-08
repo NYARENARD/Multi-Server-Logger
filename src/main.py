@@ -82,9 +82,9 @@ class Multi_Server_Logger(selfcord.Client):
                     pointer = msg
                     break
             if pointer: 
-                await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@_everyone").replace("@here", "@_here"), files=att, reference=pointer)
+                await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att, reference=pointer)
             else:
-                await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@_everyone").replace("@here", "@_here"), files=att)
+                await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att)
         await self.get_guild(log_guild).delete_emoji(emoji)
 
     async def on_message_edit(self, before, after):
@@ -95,7 +95,7 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
         
-        payload = f"`UPD` **Updated:** {after.content}".replace("@everyone", "@_everyone").replace("@here", "@_here")
+        payload = f"`UPD` **Updated:** {after.content}".replace("@everyone", "@_everyone")
         messages = [msg async for msg in ch.history(limit=200)]
         pointer = None
         for msg in messages:
