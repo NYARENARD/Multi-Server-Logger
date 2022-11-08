@@ -42,7 +42,7 @@ class Multi_Server_Logger(selfcord.Client):
             new_ch = self.get_channel(int(pointer.content.split()[2]))
         else:
             new_ch = await serv.create_text_channel(ch.name, category=category)
-            await aux.send(f"CHANNEL {ch.id} {new_ch.id} ({gu.name} - {ch.name})")
+            await aux.send(f"CHANNEL {ch.id} {new_ch.id} ({gu.name} -- {ch.name})")
         return new_ch
 
     async def on_typing(self, channel, user, when):
@@ -58,15 +58,20 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
 
+        message.author.display_avatar.url
+        async with aiohttp.ClientSession() as session:
+            async with session.get(message.author.display_avatar.url) as resp:
+                image = io.BytesIO(await resp.read())
+                emoji = await log_guild.create_custom_emoji(f"avatar_{message.author.name}", image)
         att = []
         for a in message.attachments:
             async with aiohttp.ClientSession() as session:
                 async with session.get(a.url) as resp:
                     att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
        
-        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}".rjust(21)
+        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator} <:{emoji.name}:{emoji.id}>".rjust(21)
         if message.reference == None:
-            await ch.send(payload + f": {message.content}`", files=att)
+            await ch.send(payload + f":` {message.content}", files=att)
         else:
             messages = [msg async for msg in ch.history(limit=200)]
             pointer = None
@@ -75,9 +80,10 @@ class Multi_Server_Logger(selfcord.Client):
                     pointer = msg
                     break
             if pointer: 
-                await ch.send(payload + f"` **Replied** `: {message.content}`", files=att, reference=pointer)
+                await ch.send(payload + f"` **Replied:** {message.content}", files=att, reference=pointer)
             else:
-                await ch.send(payload + f"` **Replied** `: {message.content}`", files=att)
+                await ch.send(payload + f"` **Replied:** {message.content}", files=att)
+        await log_guild.delete_emoji(emoji)
 
     async def on_message_edit(self, before, after):
         if after.author.id == self.user.id:
@@ -87,7 +93,7 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
         
-        payload = f"`UPD `**Updated** `: {after.content}`"
+        payload = f"`UPD` **Updated:** {after.content}"
         messages = [msg async for msg in ch.history(limit=200)]
         pointer = None
         for msg in messages:
@@ -107,7 +113,7 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
         
-        payload = "`DEL `**Deleted**"
+        payload = "`DEL` **Deleted**"
         messages = [msg async for msg in ch.history(limit=200)]
         pointer = None
         for msg in messages:
@@ -124,7 +130,7 @@ class Multi_Server_Logger(selfcord.Client):
             ch = await self.create_on_events(guild.channel)
         except:
             return
-        payload = f"`BAN `**Banned** : {user.name}#{user.discriminator}"
+        payload = f"`BAN` **Banned:** {user.name}#{user.discriminator}"
         await ch.send(payload)
 
         
