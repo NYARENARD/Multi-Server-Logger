@@ -1,5 +1,6 @@
 import selfcord
-import urllib.request
+import io
+import aiohttp
 from secondary import config
 
 log_guild = config["log_guild"]
@@ -56,8 +57,13 @@ class Multi_Server_Logger(selfcord.Client):
             ch = await self.create_on_events(message.channel)
         except:
             return
+
+        att = []
+        for a in message.attachments:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(a.url) as resp:
+                    att.append(selfcord.File(io.BytesIO(await resp.read()), name="log.png"))
        
-        att = [selfcord.File(urllib.request.urlopen(a.url), filename=a.filename) for a in message.attachments]
         payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}".rjust(21)
         if message.reference == None:
             if type(message.attachments) is list:
