@@ -58,7 +58,7 @@ class Multi_Server_Logger(selfcord.Client):
         
         payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}".rjust(21)
         if message.reference == None:
-            if type(message.attachment) is list:
+            if type(message.attachments) is list:
                 await ch.send(payload + f": {message.content}`", files=message.attachments)
             else:
                 await ch.send(payload + f": {message.content}`", file=message.attachments)
@@ -70,12 +70,12 @@ class Multi_Server_Logger(selfcord.Client):
                     pointer = msg
                     break
             if pointer:
-                if type(message.attachment) is list:
+                if type(message.attachments) is list:
                     await ch.send(payload + f"` **Replied** `: {message.content}`", files=message.attachments, reference=pointer)
                 else:
                     await ch.send(payload + f"` **Replied** `: {message.content}`", file=message.attachments, reference=pointer)
             else:
-                if type(message.attachment) is list:
+                if type(message.attachments) is list:
                     await ch.send(payload + f"` **Replied** `: {message.content}`", files=message.attachments)
                 else:
                     await ch.send(payload + f"` **Replied** `: {message.content}`", file=message.attachments)
