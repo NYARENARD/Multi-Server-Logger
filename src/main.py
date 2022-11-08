@@ -64,6 +64,7 @@ class Multi_Server_Logger(selfcord.Client):
             emoji = await self.get_guild(log_guild).create_custom_emoji(name="avatar", image=fp)
             subload = f"<:{emoji.name}:{emoji.id}>"
         except:
+            emoji = selfcord.Emoji()
             subload = ""
         att = []
         for a in message.attachments:
