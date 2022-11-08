@@ -60,7 +60,7 @@ class Multi_Server_Logger(selfcord.Client):
             return
 
         fp = requests.get(message.author.display_avatar.url).content
-        emoji = await self.get_guild(log_guild).create_custom_emoji(name=f"avatar_{message.author.name}", image=fp)
+        emoji = await self.get_guild(log_guild).create_custom_emoji(name=f"avatar", image=fp)
         att = []
         for a in message.attachments:
             async with aiohttp.ClientSession() as session:
@@ -78,9 +78,9 @@ class Multi_Server_Logger(selfcord.Client):
                     pointer = msg
                     break
             if pointer: 
-                await ch.send(payload + f"` **Replied:** {message.content}", files=att, reference=pointer)
+                await ch.send(payload + f"` **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att, reference=pointer)
             else:
-                await ch.send(payload + f"` **Replied:** {message.content}", files=att)
+                await ch.send(payload + f"` **Replied:** {message.content}".replace("@everyone", "@_everyone"), files=att)
         await log_guild.delete_emoji(emoji)
 
     async def on_message_edit(self, before, after):
@@ -91,7 +91,7 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
         
-        payload = f"`UPD` **Updated:** {after.content}"
+        payload = f"`UPD` **Updated:** {after.content}".replace("@everyone", "@_everyone")
         messages = [msg async for msg in ch.history(limit=200)]
         pointer = None
         for msg in messages:
