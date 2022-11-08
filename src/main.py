@@ -57,7 +57,7 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
        
-        att = [selfcord.File(urllib.request.urlopen(a.url), filename=a.filename) async for a in message.attachments]
+        att = [selfcord.File(urllib.request.urlopen(a.url), filename=a.filename) for a in message.attachments]
         payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}".rjust(21)
         if message.reference == None:
             if type(message.attachments) is list:
