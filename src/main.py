@@ -62,7 +62,7 @@ class Multi_Server_Logger(selfcord.Client):
         for a in message.attachments:
             async with aiohttp.ClientSession() as session:
                 async with session.get(a.url) as resp:
-                    att.append(selfcord.File(io.BytesIO(await resp.read()), name="log.png"))
+                    att.append(selfcord.File(io.BytesIO(await resp.read()), "log.png"))
        
         payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}".rjust(21)
         if message.reference == None:
