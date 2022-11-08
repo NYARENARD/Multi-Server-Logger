@@ -71,7 +71,7 @@ class Multi_Server_Logger(selfcord.Client):
                 async with session.get(a.url) as resp:
                     att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
        
-        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}` {subload}".rjust(21)
+        payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}`".rjust(21) + f"{subload}"
         if message.reference == None:
             await ch.send(payload + f": {message.content}", files=att)
         else:
