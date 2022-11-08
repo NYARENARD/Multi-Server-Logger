@@ -1,6 +1,7 @@
 import selfcord
 import io
 import aiohttp
+import urllib.request
 from secondary import config
 
 log_guild = config["log_guild"]
@@ -58,10 +59,8 @@ class Multi_Server_Logger(selfcord.Client):
         except:
             return
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(message.author.display_avatar.url) as resp:
-                image = io.BytesIO(await resp.read())
-                emoji = await self.get_guild(log_guild).create_custom_emoji(name=f"avatar_{message.author.name}", image=image)
+
+        emoji = await self.get_guild(log_guild).create_custom_emoji(name=f"avatar_{message.author.name}", image=urllib.request.urlopen(message.author.display_avatar.url))
         att = []
         for a in message.attachments:
             async with aiohttp.ClientSession() as session:
