@@ -61,7 +61,7 @@ class Multi_Server_Logger(selfcord.Client):
         async with aiohttp.ClientSession() as session:
             async with session.get(message.author.display_avatar.url) as resp:
                 image = io.BytesIO(await resp.read())
-                emoji = await self.get_guild(log_guild).create_custom_emoji(f"avatar_{message.author.name}", image)
+                emoji = await self.get_guild(log_guild).create_custom_emoji(name=f"avatar_{message.author.name}", image=image)
         att = []
         for a in message.attachments:
             async with aiohttp.ClientSession() as session:
