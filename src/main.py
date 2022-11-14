@@ -78,7 +78,7 @@ class Multi_Server_Logger(selfcord.Client):
             messages = [msg async for msg in ch.history(limit=200)]
             pointer = None
             for msg in messages:
-                if message.reference.cached_message.content in msg.content:
+                if message.reference.resolved.content in msg.content:
                     pointer = msg
                     break
             if pointer: 
