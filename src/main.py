@@ -138,7 +138,7 @@ class Multi_Server_Logger(selfcord.Client):
         try:
             ch = await self.create_on_events(guild.channel)
         except:
-            return
+            ch = self.get_channel(aux_channel)
         payload = f"`BAN` **Banned:** {user.name}#{user.discriminator}"
         await ch.send(payload)
 
