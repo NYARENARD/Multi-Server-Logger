@@ -89,7 +89,10 @@ class Multi_Server_Logger(selfcord.Client):
                 await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@ evryone"), files=att, reference=pointer)
             else:
                 await ch.send(payload + f" **Replied:** {message.content}".replace("@everyone", "@ evryone"), files=att)
-        await self.get_guild(log_guild).delete_emoji(emoji)
+        try:
+            await self.get_guild(log_guild).delete_emoji(emoji)
+        except:
+            print(f"Couldn't get avatar: {message.author.name}")
 
     async def on_message_edit(self, before, after):
         if after.author.id == self.user.id:
