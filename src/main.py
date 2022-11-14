@@ -49,7 +49,11 @@ class Multi_Server_Logger(selfcord.Client):
     async def on_typing(self, channel, user, when):
         if user.id == self.user.id:
             return
-        await self.create_on_events(channel)
+        try:
+            ch = await self.create_on_events(channel)
+        except:
+            return
+        await ch.trigger_typing()
 
     async def on_message(self, message):
         if message.author.id == self.user.id:
