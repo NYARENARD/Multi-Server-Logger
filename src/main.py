@@ -11,6 +11,9 @@ class Multi_Server_Logger(selfcord.Client):
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
+    
+    async def on_error(self, event):
+        print(f"Error: {event}")
 
     async def create_on_events(self, channel):
         gu = channel.guild
