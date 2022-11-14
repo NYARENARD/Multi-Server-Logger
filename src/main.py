@@ -92,7 +92,7 @@ class Multi_Server_Logger(selfcord.Client):
         try:
             await self.get_guild(log_guild).delete_emoji(emoji)
         except:
-            print(f"Couldn't get avatar: {message.author.name}")
+            pass
 
     async def on_message_edit(self, before, after):
         if after.author.id == self.user.id:
