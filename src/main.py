@@ -18,7 +18,7 @@ class Multi_Server_Logger(selfcord.Client):
         serv = self.get_guild(log_guild)
         aux = self.get_channel(aux_channel)
         if gu == serv:
-            return "WRONG_GUILD"
+            return None
 
         messages = [msg async for msg in aux.history(limit=200)]
         exists = 0
