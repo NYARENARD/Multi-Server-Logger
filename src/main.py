@@ -18,7 +18,7 @@ class Multi_Server_Logger(selfcord.Client):
 
         category = None
         for c in serv.categories:
-            if c.name == serv.name:
+            if c.name == gu.name:
                 category = c
                 break
         if not category:
