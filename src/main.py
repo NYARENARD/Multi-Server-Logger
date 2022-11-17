@@ -3,10 +3,7 @@ import io
 import aiohttp
 from secondary import config
 
-
 log_guild = config["log_guild"]
-aux_channel = config["aux_channel"]
-
 
 class Multi_Server_Logger(selfcord.Client):
     async def on_ready(self):
