@@ -49,7 +49,7 @@ class Multi_Server_Logger(selfcord.Client):
 
 
     def parse_content(self, string):
-        return string.replace(("@everyone", "@ evryone")).replace("@here", "@ her")
+        return string.replace("@everyone", "@ evryone").replace("@here", "@ her")
 
 
     async def on_message(self, message):
