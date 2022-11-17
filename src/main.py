@@ -11,11 +11,7 @@ aux_channel = config["aux_channel"]
 class Multi_Server_Logger(selfcord.Client):
     async def on_ready(self):
         print(f'Logged in: {self.user} (Selfbot)')
-    
-
-    async def on_error(self, event):
-        print(f"Error: {event}")
-
+   
 
     async def create_get_channel(self, ch):
         gu = ch.guild
