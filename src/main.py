@@ -214,12 +214,15 @@ async def getlink(ctx):
 @loop(seconds=120)
 async def del_empty_channels():
     serv = bot.get_guild(log_guild)
-    for ch in serv.text_channels:
-        try:
-            if [msg async for msg in ch.history(limit=1)] == []:
-                await ch.delete(reason="Empty channel.")
-        except:
-            return
+    try:
+        for ch in serv.text_channels:
+            try:
+                if [msg async for msg in ch.history(limit=1)] == []:
+                    await ch.delete(reason="Empty channel.")
+            except:
+                return
+    except:
+        print("Couldn't get logguild apparently")
                 
 @del_empty_channels.before_loop
 async def before_loop():
