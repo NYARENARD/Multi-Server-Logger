@@ -173,7 +173,7 @@ class Multi_Server_Logger(selfcord.Client):
                     counter += 1
                     if counter >= filelen:
                         break
-        await message.channel.send(file=selfcord.File(filename))
+        await message.channel.send(file=selfcord.File(filename), reference=message)
         await message.add_reaction('✅')
         os.remove(filename)
     
@@ -190,21 +190,20 @@ class Multi_Server_Logger(selfcord.Client):
                         break
                 break
         if not channel:
-            await message.channel.send("Сервер или канал не найден.")
+            await message.channel.send("Сервер или канал не найден.", reference=message)
             return
         pointer = None
-        messages = [msg async for msg in channel.history(limit=2000)]
-        messages.reverse()
+        messages = [msg async for msg in channel.history(limit=1000)]
         for m in messages:
             if reference.content.partition(": ")[2] == m.content:
                 pointer = m
                 break
         messages = None
         if not pointer:
-            await message.channel.send("Оригинальное сообщение не найдено.")
+            await message.channel.send("Оригинальное сообщение не найдено.", reference=message)
             return
         link = f"https://discord.com/channels/{pointer.guild.id}/{pointer.channel.id}/{pointer.id}"
-        await message.channel.send(link)
+        await message.channel.send(link, reference=message)
     
     #HELPER-FUNCS
     
