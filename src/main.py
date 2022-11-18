@@ -17,7 +17,7 @@ class Multi_Server_Logger(selfcord.Client):
     @loop(seconds=60)
     async def del_empty_channels(self):
         serv = self.get_guild(log_guild)
-        for ch in serv.channels:
+        for ch in serv.text_channels:
             if [msg async for msg in ch.history(limit=5)] == []:
                 ch.delete(reason="Empty channel.")
                 
@@ -41,7 +41,7 @@ class Multi_Server_Logger(selfcord.Client):
             category = await serv.create_category(gu.name)
 
         channel = None
-        for c in serv.channels:
+        for c in serv.text_channels:
             if c.name == ch.name.replace(' ', '-').lower():
                 channel = c
                 break
