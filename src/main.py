@@ -193,7 +193,7 @@ class Multi_Server_Logger(selfcord.Client):
             await message.channel.send("Сервер или канал не найден.")
             return
         pointer = None
-        messages = [msg async for msg in channel.history(limit=10000)]
+        messages = [msg async for msg in channel.history(limit=2000)]
         for m in messages:
             if m.content in reference.content.partition(": ")[2]:
                 pointer = m
