@@ -188,6 +188,7 @@ class Multi_Server_Logger(selfcord.Client):
                     if ch.name == channel_tosearch:
                         channel = ch
                         break
+                break
         if not channel:
             await message.channel.send("Сервер или канал не найден.")
             return
