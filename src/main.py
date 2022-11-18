@@ -173,10 +173,7 @@ class Multi_Server_Logger(selfcord.Client):
                     counter += 1
                     if counter >= filelen:
                         break
-        a = open(filename, 'rb')
-        file = selfcord.File(filename, fp=a)
-        await message.channel.send(file=file)
-        a.close()
+        await message.channel.send(file=selfcord.File(filename))
         await message.add_reaction('✅')
         os.remove(filename)
     
