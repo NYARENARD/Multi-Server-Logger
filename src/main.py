@@ -219,9 +219,9 @@ async def del_empty_channels():
         except:
             return
                 
-#@del_empty_channels.before_loop
-#async def before_loop():
-#    await bot.wait_until_ready()
+@del_empty_channels.before_loop
+async def before_loop():
+    await bot.wait_until_ready()
                 
 
 #FUNCS-HELPERS
