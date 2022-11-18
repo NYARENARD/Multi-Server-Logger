@@ -60,7 +60,7 @@ class Multi_Server_Logger(selfcord.Client):
         channel = None
         for cat in serv.categories:
             if cat.name == member.guild.name:
-                category = c
+                category = cat
                 break
         for ch in category.text_channels:
             if ch.name == "joined-left":
@@ -78,7 +78,7 @@ class Multi_Server_Logger(selfcord.Client):
         channel = None
         for cat in serv.categories:
             if cat.name == member.guild.name:
-                category = c
+                category = cat
                 break
         for ch in category.text_channels:
             if ch.name == "joined-left":
@@ -96,7 +96,7 @@ class Multi_Server_Logger(selfcord.Client):
         channel = None
         for cat in serv.categories:
             if cat.name == guild.name:
-                category = c
+                category = cat
                 break
         for ch in category.text_channels:
             if ch.name == "joined-left":
