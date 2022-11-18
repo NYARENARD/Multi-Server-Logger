@@ -195,7 +195,7 @@ class Multi_Server_Logger(selfcord.Client):
         pointer = None
         messages = [msg async for msg in channel.history(limit=2000)]
         for m in messages:
-            if m.content in reference.content.partition(": ")[2]:
+            if reference.content.partition(": ")[2] == m.content:
                 pointer = m
                 break
         messages = None
