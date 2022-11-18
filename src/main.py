@@ -14,7 +14,7 @@ class Multi_Server_Logger(selfcord.Client):
     async def setup_hook(self) -> None:
         self.del_empty_channels.start()
     
-    @loop(seconds=60)
+    @loop(seconds=120)
     async def del_empty_channels(self):
         serv = self.get_guild(log_guild)
         for ch in serv.text_channels:
