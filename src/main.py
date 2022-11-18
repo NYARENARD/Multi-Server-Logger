@@ -4,6 +4,7 @@ from selfcord.ext import commands
 import io
 import aiohttp
 import os
+import asyncio
 from secondary import config
 
 bot = commands.Bot(command_prefix='!', self_bot=True)
@@ -253,5 +254,5 @@ async def create_get_channel(ch):
 def parse_content(string):
     return string.replace("@everyone", "@ evryone").replace("@here", "@ her")
 
-bot.loop.create_task(del_empty_channels())
+asyncio.run(del_empty_channels())
 bot.run(token)
