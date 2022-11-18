@@ -210,19 +210,19 @@ async def getlink(ctx):
 
 #LOOP
 
-@bot.command
-@loop(seconds=30)
-async def del_empty_channels():
-    serv = bot.get_guild(log_guild)
-    try:
-        for ch in serv.text_channels:
-            try:
-                if [msg async for msg in ch.history(limit=1)] == []:
-                    await ch.delete(reason="Empty channel.")
-            except:
-                return
-    except:
-        print("Couldn't get logguild apparently")
+#@bot.command
+#@loop(seconds=30)
+#async def del_empty_channels():
+#    serv = bot.get_guild(log_guild)
+#    try:
+#        for ch in serv.text_channels:
+#            try:
+#                if [msg async for msg in ch.history(limit=1)] == []:
+#                    await ch.delete(reason="Empty channel.")
+#            except:
+#                return
+#    except:
+#        print("Couldn't get logguild apparently")
                 
 #@del_empty_channels.before_loop
 #async def before_loop():
@@ -259,5 +259,5 @@ def parse_content(string):
     return string.replace("@everyone", "@ evryone").replace("@here", "@ her")
 
 #asyncio.run(del_empty_channels())
-del_empty_channels.start()
+#del_empty_channels.start()
 bot.run(token)
