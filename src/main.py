@@ -1,5 +1,5 @@
 import selfcord
-from selfcord.ext import tasks
+from selfcord.ext.tasks import loop
 import io
 import aiohttp
 from secondary import config
@@ -9,13 +9,21 @@ log_guild = config["log_guild"]
 class Multi_Server_Logger(selfcord.Client):
     async def on_ready(self):
         print(f'Logged in: {self.user} (Selfbot)')
+       
     
-    @tasks.loop(seconds=60)
+    async def setup_hook(self) -> None:
+        self.del_empty_channels.start()
+    
+    @loop(seconds=60)
     async def del_empty_channels(self):
         serv = self.get_guild(log_guild)
         for ch in serv.channels:
             if [msg async for msg in ch.history(limit=5)] == []:
                 ch.delete(reason="Empty channel.")
+                
+    @del_empty_channels.before_loop
+    async def before_loop(self):
+        await self.wait_until_ready()
                 
 
     async def create_get_channel(self, ch):
@@ -51,7 +59,6 @@ class Multi_Server_Logger(selfcord.Client):
 
     def parse_content(self, string):
         return string.replace("@everyone", "@ evryone").replace("@here", "@ her")
-
 
     async def on_message(self, message):
         if message.author.id == self.user.id or message.guild.id == log_guild:
@@ -121,5 +128,4 @@ class Multi_Server_Logger(selfcord.Client):
 
         
 client = Multi_Server_Logger()
-client.del_empty_channels.start()
 client.run(config["token_selfbot"])
