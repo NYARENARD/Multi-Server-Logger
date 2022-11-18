@@ -18,8 +18,11 @@ class Multi_Server_Logger(selfcord.Client):
     async def del_empty_channels(self):
         serv = self.get_guild(log_guild)
         for ch in serv.text_channels:
-            if [msg async for msg in ch.history(limit=5)] == []:
-                await ch.delete(reason="Empty channel.")
+            try:
+                if [msg async for msg in ch.history(limit=1)] == []:
+                    await ch.delete(reason="Empty channel.")
+            except:
+                return
                 
     @del_empty_channels.before_loop
     async def before_loop(self):
@@ -115,7 +118,7 @@ class Multi_Server_Logger(selfcord.Client):
         ch = await self.create_get_channel(message.channel)
         
         payload = "`DEL` **Deleted**"
-        messages = [msg async for msg in ch.history(limit=100)]
+        messages = [msg async for msg in ch.history(limit=200)]
         pointer = None
         for msg in messages:
             if message.content in msg.content:
