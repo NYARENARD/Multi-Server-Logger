@@ -168,8 +168,8 @@ class Multi_Server_Logger(selfcord.Client):
         with open(filename, 'w', encoding="utf-8") as f:
             counter = 0
             for message in [msg async for msg in message.channel.history(limit=10000)]:
-                if request in message:
-                    f.write(message + '\n')
+                if request in message.content:
+                    f.write(message.content + '\n')
                     counter += 1
                     if counter >= filelen:
                         break
@@ -194,7 +194,7 @@ class Multi_Server_Logger(selfcord.Client):
         pointer = None
         messages = [msg async for msg in channel.history(limit=10000)]
         for m in messages:
-            if reference.content in m.partition(": ")[2]:
+            if reference.content in m.content.partition(": ")[2]:
                 pointer = m
                 break
         messages = None
