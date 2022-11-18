@@ -199,7 +199,7 @@ class Multi_Server_Logger(selfcord.Client):
                 break
         messages = None
         if not pointer:
-            await ctx.send("Оригинальное сообщение не найдено.")
+            await message.channel.send("Оригинальное сообщение не найдено.")
             return
         link = f"https://discord.com/channels/{pointer.guild.id}/{pointer.channel.id}/{pointer.id}"
         await message.channel.send(link)
