@@ -26,7 +26,7 @@ class Multi_Server_Logger(selfcord.Client):
 
         channel = None
         for c in serv.channels:
-            if c.name == ch.name.replace(' ', '-'):
+            if c.name == ch.name.replace(' ', '-').lower():
                 channel = c
                 break
         if not channel:
