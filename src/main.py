@@ -104,7 +104,7 @@ class Multi_Server_Logger(selfcord.Client):
                 break
         if not channel:
             channel = await serv.create_text_channel("joined-left", category=category)
-        await channel.send(f"`Banned:` {member.name}#{member.discriminator}")
+        await channel.send(f"`Banned:` {user.name}#{user.discriminator}")
     
     async def on_typing(self, channel, user, when):
         if self.user.id == user.id or log_guild == channel.guild.id:
