@@ -7,8 +7,6 @@ import os
 import asyncio
 from secondary import config
 
-global bot
-global log_guild
 
 bot = commands.Bot(command_prefix='!', self_bot=True)
 log_guild = config["log_guild"]
@@ -215,7 +213,6 @@ async def getlink(ctx):
 
 @loop(seconds=120)
 async def del_empty_channels():
-    global bot
     serv = bot.get_guild(log_guild)
     for ch in serv.text_channels:
         try:
