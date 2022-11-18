@@ -179,7 +179,7 @@ class Multi_Server_Logger(selfcord.Client):
     
     async def getlink(self, message):
         reference = message.reference.resolved
-        guild_tosearch = reference.category.name
+        guild_tosearch = reference.channel.category.name
         channel_tosearch = reference.channel.name
         channel = None
         for g in self.guilds:
