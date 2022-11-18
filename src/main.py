@@ -184,7 +184,7 @@ class Multi_Server_Logger(selfcord.Client):
         channel = None
         for g in self.guilds:
             if g.name == guild_tosearch:
-                for ch in g.channels:
+                for ch in g.text_channels:
                     if ch.name == channel_tosearch:
                         channel = ch
                         break
