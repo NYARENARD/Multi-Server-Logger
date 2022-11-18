@@ -132,7 +132,7 @@ class Multi_Server_Logger(selfcord.Client):
         payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}`".rjust(21)
         
         if message.reference == None:
-            await ch.send(payload + f": {message.content}", files=att)
+            await ch.send(payload + f": {message.content}", files=att, embeds=message.embeds)
         else:
             messages = [msg async for msg in ch.history(limit=100)]
             pointer = None
