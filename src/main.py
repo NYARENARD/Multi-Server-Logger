@@ -83,7 +83,7 @@ async def on_member_ban(guild, user):
 async def on_typing(channel, user, when):
     if bot.user.id == user.id or log_guild == channel.guild.id:
         return
-    ch = await bot.create_get_channel(channel)
+    ch = await create_get_channel(channel)
     await ch.trigger_typing()
 
 
@@ -91,7 +91,7 @@ async def on_typing(channel, user, when):
 async def on_message(message):
     if message.author.id == bot.user.id or message.guild.id == log_guild:
         return
-    ch = await bot.create_get_channel(message.channel)
+    ch = await create_get_channel(message.channel)
     att = []
     for a in message.attachments:
         async with aiohttp.ClientSession() as session:
@@ -120,7 +120,7 @@ async def on_message(message):
 async def on_message_edit(before, after):
     if after.author.id == bot.user.id or after.guild.id == log_guild:
         return
-    ch = await bot.create_get_channel(after.channel)
+    ch = await create_get_channel(after.channel)
     
     after.content = bot.parse_content(after.content)
     payload = f"`UPD` **Updated:** {after.content}"
@@ -140,7 +140,7 @@ async def on_message_edit(before, after):
 async def on_message_delete(message):
     if message.author.id == bot.user.id or message.guild.id == log_guild:
         return
-    ch = await bot.create_get_channel(message.channel)
+    ch = await create_get_channel(message.channel)
     
     payload = "`DEL` **Deleted**"
     messages = [msg async for msg in ch.history(limit=200)]
@@ -211,7 +211,7 @@ async def getlink(ctx):
 #LOOP
 
 
-@loop(seconds=120)
+@loop(seconds=30)
 async def del_empty_channels():
     serv = bot.get_guild(log_guild)
     try:
