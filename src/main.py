@@ -1,4 +1,5 @@
 import selfcord
+from selfcord.ext import tasks
 import io
 import aiohttp
 from secondary import config
@@ -8,7 +9,13 @@ log_guild = config["log_guild"]
 class Multi_Server_Logger(selfcord.Client):
     async def on_ready(self):
         print(f'Logged in: {self.user} (Selfbot)')
-   
+    
+    @tasks.loop(seconds=60)
+    async def del_empty_channels(self):
+        serv = self.get_guild(log_guild)
+        for ch in serv.channels:
+            if [msg async for msg in ch.history(limit=5)] == []:
+                ch.delete(reason="Empty channel.")
 
     async def create_get_channel(self, ch):
         gu = ch.guild
