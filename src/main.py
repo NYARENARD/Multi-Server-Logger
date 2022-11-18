@@ -210,7 +210,7 @@ async def getlink(ctx):
 
 #LOOP
 
-@bot
+@bot.event
 @loop(seconds=30)
 async def del_empty_channels():
     serv = bot.get_guild(log_guild)
@@ -258,5 +258,6 @@ async def create_get_channel(ch):
 def parse_content(string):
     return string.replace("@everyone", "@ evryone").replace("@here", "@ her")
 
-asyncio.run(del_empty_channels())
+#asyncio.run(del_empty_channels())
+del_empty_channels.start()
 bot.run(token)
