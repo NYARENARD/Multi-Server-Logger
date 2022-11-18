@@ -173,7 +173,7 @@ async def tofile(ctx, filename: str = "log.txt", filelen: int = 100, request: st
     os.remove(filename)
 
 @bot.command(aliases=["link", "ссылка", "ссылку"])
-async def link(ctx):
+async def getlink(ctx):
     if ctx.guild.id != log_guild or ctx.author == bot.user.id:
         return
     reference = ctx.message.reference.resolved
