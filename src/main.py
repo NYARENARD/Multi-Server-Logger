@@ -88,6 +88,24 @@ class Multi_Server_Logger(selfcord.Client):
             channel = await serv.create_text_channel("joined-left", category=category)
         await channel.send(f"`  Left:` {member.name}#{member.discriminator}")
     
+    async def on_member_ban(self, guild, user):
+        if self.user.id == user.id or log_guild == guild.id:
+            return
+        serv = self.get_guild(log_guild)
+        category = None
+        channel = None
+        for cat in serv.categories:
+            if cat.name == guild.name:
+                category = c
+                break
+        for ch in category.text_channels:
+            if ch.name == "joined-left":
+                channel = ch
+                break
+        if not channel:
+            channel = await serv.create_text_channel("joined-left", category=category)
+        await channel.send(f"`Banned:` {member.name}#{member.discriminator}")
+    
     async def on_typing(self, channel, user, when):
         if self.user.id == user.id or log_guild == channel.guild.id:
             return
