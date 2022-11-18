@@ -215,6 +215,7 @@ async def getlink(ctx):
 
 @loop(seconds=120)
 async def del_empty_channels():
+    global bot
     serv = bot.get_guild(log_guild)
     for ch in serv.text_channels:
         try:
