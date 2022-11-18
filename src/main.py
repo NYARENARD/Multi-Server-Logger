@@ -7,8 +7,10 @@ import os
 import asyncio
 from secondary import config
 
-bot = commands.Bot(command_prefix='!', self_bot=True)
+global bot
 global log_guild
+
+bot = commands.Bot(command_prefix='!', self_bot=True)
 log_guild = config["log_guild"]
 token = config["token_selfbot"]
 
