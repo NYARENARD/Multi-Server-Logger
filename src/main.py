@@ -98,7 +98,7 @@ async def on_message(message):
             async with session.get(a.url) as resp:
                 att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
    
-    message.content = bot.parse_content(message.content)
+    message.content = parse_content(message.content)
     payload = "`MSG " + f"{message.author.name}#{message.author.discriminator}`".rjust(21)
     
     if message.reference == None:
@@ -122,7 +122,7 @@ async def on_message_edit(before, after):
         return
     ch = await create_get_channel(after.channel)
     
-    after.content = bot.parse_content(after.content)
+    after.content = parse_content(after.content)
     payload = f"`UPD` **Updated:** {after.content}"
     messages = [msg async for msg in ch.history(limit=100)]
     pointer = None
