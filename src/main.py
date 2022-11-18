@@ -2,9 +2,13 @@ import selfcord
 from selfcord.ext.tasks import loop
 import io
 import aiohttp
+import os
 from secondary import config
 
 log_guild = config["log_guild"]
+prefix = '!'
+commands = ["link", "file"]
+commands = [prefix + c for c in commands]
 
 class Multi_Server_Logger(selfcord.Client):
     
@@ -76,11 +80,18 @@ class Multi_Server_Logger(selfcord.Client):
             return
         ch = await self.create_get_channel(channel)
         await ch.trigger_typing()
-        
-        
+    
+    
     async def on_message(self, message):
-        if message.author.id == self.user.id or message.guild.id == log_guild:
+        if message.author.id == self.user.id:
             return
+        if message.guild.id == log_guild:
+            if message.content.split(' ')[0] == "!file":
+                return await tofile(message)
+            else if message.content.split(' ')[0] == "!link"
+                return await getlink(message)
+            else:
+                return
 
         ch = await self.create_get_channel(message.channel)
 
@@ -145,6 +156,53 @@ class Multi_Server_Logger(selfcord.Client):
         else:
             await ch.send(payload)
     
+    
+    #COMMANDS
+    
+    async def tofile(self, message):
+        lst = message.content.split(' ', 3)
+        filename = lst[1]
+        filelen = lst[2]
+        request = lst[3]
+        await message.add_reaction('💬')
+        with open(filename, 'w', encoding="utf-8") as f:
+            counter = 0
+            for message in [msg async for msg in message.channel.history(limit=10000)]:
+                if request in message:
+                    f.write(message + '\n')
+                    counter += 1
+                    if counter >= filelen:
+                        break
+        await message.channel.send(file=filename)
+        await message.add_reaction('✅')
+        os.remove(filename)
+    
+    async def getlink(self, message):
+        reference = message.reference.resolved
+        guild_tosearch = reference.category.name
+        channel_tosearch = reference.channel.name
+        channel = None
+        for g in self.guilds:
+            if g.name == guild_tosearch:
+                for ch in g.channels:
+                    if ch.name == channel_tosearch:
+                        channel = ch
+                        break
+        if not channel:
+            await message.channel.send("Сервер или канал не найден.")
+            return
+        pointer = None
+        messages = [msg async for msg in channel.history(limit=10000)]
+        for m in messages:
+            if reference.content in m.partition(": ")[2]:
+                pointer = m
+                break
+        messages = None
+        if not pointer:
+            await ctx.send("Оригинальное сообщение не найдено.")
+            return
+        link = f"https://discord.com/channels/{pointer.guild.id}/{pointer.channel.id}/{pointer.id}"
+        await message.channel.send(link)
     
     #HELPER-FUNCS
     
