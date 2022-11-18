@@ -224,9 +224,9 @@ async def del_empty_channels():
     except:
         print("Couldn't get logguild apparently")
                 
-@del_empty_channels.before_loop
-async def before_loop():
-    await bot.wait_until_ready()
+#@del_empty_channels.before_loop
+#async def before_loop():
+#    await bot.wait_until_ready()
                 
 
 #FUNCS-HELPERS
