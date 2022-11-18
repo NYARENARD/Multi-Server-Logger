@@ -253,5 +253,5 @@ async def create_get_channel(ch):
 def parse_content(string):
     return string.replace("@everyone", "@ evryone").replace("@here", "@ her")
 
-del_empty_channels.start()
+bot.loop.create_task(del_empty_channels())
 bot.run(token)
