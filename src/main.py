@@ -42,6 +42,7 @@ class Multi_Server_Logger(selfcord.Client):
                 break
         if not category:
             category = await serv.create_category(gu.name)
+            await serv.create_text_channel("joined-left", category=category)
 
         channel = None
         for c in serv.text_channels:
@@ -52,7 +53,37 @@ class Multi_Server_Logger(selfcord.Client):
             channel = await serv.create_text_channel(ch.name, category=category)
         return channel
         
-
+    async def on_member_join(self, member):
+        if self.user.id == member.id:
+            return
+        serv = self.get_guild(log_guild)
+        category = None
+        channel = None
+        for cat in serv.categories:
+            if cat.name == member.guild.name:
+                category = c
+                break
+        for ch in category.text_channels:
+            if ch.name == "joined-left":
+                channel = ch
+                break
+        await channel.send(f"`Joined:` {member.name}#{member.discriminator}")
+    async def on_member_remove(self, member):
+        if self.user.id == member.id:
+            return
+        serv = self.get_guild(log_guild)
+        category = None
+        channel = None
+        for cat in serv.categories:
+            if cat.name == member.guild.name:
+                category = c
+                break
+        for ch in category.text_channels:
+            if ch.name == "joined-left":
+                channel = ch
+                break
+        await channel.send(f"`  Left:` {member.name}#{member.discriminator}")
+    
     async def on_typing(self, channel, user, when):
         if self.user.id == user.id or log_guild == channel.guild.id:
             return
