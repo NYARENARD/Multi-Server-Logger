@@ -210,7 +210,7 @@ async def getlink(ctx):
 
 #LOOP
 
-@bot.event
+@bot.command
 @loop(seconds=30)
 async def del_empty_channels():
     serv = bot.get_guild(log_guild)
