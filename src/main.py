@@ -162,7 +162,7 @@ class Multi_Server_Logger(selfcord.Client):
     async def tofile(self, message):
         lst = message.content.split(' ', 3)
         filename = lst[1]
-        filelen = lst[2]
+        filelen = int(lst[2])
         request = lst[3]
         await message.add_reaction('💬')
         with open(filename, 'w', encoding="utf-8") as f:
