@@ -156,7 +156,7 @@ async def on_message_delete(message):
 #COMMANDS
 
 @bot.command(aliases=["file", "файл"])
-async def file(ctx, filename: str = "log.txt", filelen: int = 100, request: str = ''):
+async def tofile(ctx, filename: str = "log.txt", filelen: int = 100, request: str = ''):
     if ctx.guild.id != log_guild or ctx.author == bot.user.id:
         return
     await ctx.message.add_reaction('💬')
