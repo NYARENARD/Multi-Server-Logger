@@ -87,9 +87,9 @@ class Multi_Server_Logger(selfcord.Client):
             return
         if message.guild.id == log_guild:
             if message.content.split(' ')[0] == "!file":
-                return await tofile(message)
+                return await self.tofile(message)
             elif message.content.split(' ')[0] == "!link":
-                return await getlink(message)
+                return await self.getlink(message)
             else:
                 return
 
