@@ -4,9 +4,9 @@ import io
 import aiohttp
 from secondary import config
 
+log_guild = config["log_guild"]
 
 class Multi_Server_Logger(selfcord.Client):
-    log_guild = config["log_guild"]
     
     #EVENTS
     
