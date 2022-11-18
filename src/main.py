@@ -16,6 +16,8 @@ class Multi_Server_Logger(selfcord.Client):
         for ch in serv.channels:
             if [msg async for msg in ch.history(limit=5)] == []:
                 ch.delete(reason="Empty channel.")
+                
+    del_empty_channels().start()
 
     async def create_get_channel(self, ch):
         gu = ch.guild
