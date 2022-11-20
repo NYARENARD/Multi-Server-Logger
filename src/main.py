@@ -127,9 +127,14 @@ class Multi_Server_Logger(selfcord.Client):
         after.content = self.parse_content(after.content)
         payload = f"`UPD` **Updated**: {after.content}"
         messages = [msg async for msg in ch.history(limit=100)]
+        att = []
+        for a in before.attachments:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(a.url) as resp:
+                    att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
         pointer = None
         for msg in messages:
-            if before.content in msg.content:
+            if before.content in msg.content and att == msg.attachments:
                 pointer = msg
                 break
         if pointer:
@@ -146,9 +151,14 @@ class Multi_Server_Logger(selfcord.Client):
         
         payload = "`DEL` **Deleted**"
         messages = [msg async for msg in ch.history(limit=200)]
+        att = []
+        for a in message.attachments:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(a.url) as resp:
+                    att.append(selfcord.File(io.BytesIO(await resp.read()), a.filename))
         pointer = None
         for msg in messages:
-            if message.content in msg.content:
+            if message.content in msg.content and att == msg.attachments:
                 pointer = msg
                 break
         if pointer:
@@ -244,7 +254,7 @@ class Multi_Server_Logger(selfcord.Client):
     async def setup_hook(self) -> None:
         self.del_empty_channels.start()
     
-    @loop(seconds=120)
+    @loop(seconds=300)
     async def del_empty_channels(self):
         serv = self.get_guild(log_guild)
         for ch in serv.text_channels:
